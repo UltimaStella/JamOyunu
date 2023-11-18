@@ -8,8 +8,8 @@ public class BuildingManager : MonoBehaviour
 {
 
     public GameObject[] objects;
-    private GameObject pendingObject;
-
+    public GameObject pendingObject;
+    [SerializeField] Material[] materials;
 
     private Vector3 pos;
 
@@ -18,10 +18,17 @@ public class BuildingManager : MonoBehaviour
     [SerializeField] private LayerMask layerMask;
 
     public float rotateAmoun;
-
+    public bool canPlace;
     public float gridSize;
     bool gridOn;
     [SerializeField] private Toggle gridToggle;
+
+    void UpdateMaterials()
+    {
+        if (canPlace) pendingObject.GetComponent<Renderer>().material = materials[0];
+        else pendingObject.GetComponent<Renderer>().material = materials[1];
+
+    }
 
 
     private void FixedUpdate()
@@ -32,7 +39,7 @@ public class BuildingManager : MonoBehaviour
         {
             pos = hit.point;
         }
-        
+
     }
 
     private void Update()
@@ -50,20 +57,21 @@ public class BuildingManager : MonoBehaviour
             else pendingObject.transform.position = pos;
 
 
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && canPlace)
             {
                 PlaceObject();
             }
-            if(Input.GetKeyDown(KeyCode.R))
+            if (Input.GetKeyDown(KeyCode.R))
             {
                 RotateObject();
             }
+            UpdateMaterials();
         }
     }
 
     public void PlaceObject()
     {
-
+        pendingObject.GetComponent<Renderer>().material = materials[2];
         pendingObject = null;
 
 

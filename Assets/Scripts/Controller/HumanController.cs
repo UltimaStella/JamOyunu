@@ -13,6 +13,6 @@ public class HumanController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(transform.forward);
+        transform.Translate(transform.forward * Time.deltaTime);
     }
 }
