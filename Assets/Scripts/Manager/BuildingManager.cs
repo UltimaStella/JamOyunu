@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.UI;
+using UnityEngine.UI;
 
 public class BuildingManager : MonoBehaviour
 {
 
     public GameObject[] objects;
+    private GameObject pendingObject;
+
 
     private Vector3 pos;
 
@@ -14,14 +17,87 @@ public class BuildingManager : MonoBehaviour
 
     [SerializeField] private LayerMask layerMask;
 
+    public float rotateAmoun;
+
+    public float gridSize;
+    bool gridOn;
+    [SerializeField] private Toggle gridToggle;
+
 
     private void FixedUpdate()
     {
-        //Ray hit Camera.main.ScreenPointToRay(Input.)
-    }
-    // Update is called once per frame
-    void Update()
-    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, 1000, layerMask))
+        {
+            pos = hit.point;
+        }
         
     }
+
+    private void Update()
+    {
+        if (pendingObject != null)
+        {
+            if (gridOn)
+            {
+                pendingObject.transform.position = new Vector3(
+                    RoundToNearestGrid(pos.x),
+                    RoundToNearestGrid(pos.y),
+                    RoundToNearestGrid(pos.z)
+                    );
+            }
+            else pendingObject.transform.position = pos;
+
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                PlaceObject();
+            }
+            if(Input.GetKeyDown(KeyCode.R))
+            {
+                RotateObject();
+            }
+        }
+    }
+
+    public void PlaceObject()
+    {
+
+        pendingObject = null;
+
+
+    }
+    public void SelectObject(int index)
+    {
+        pendingObject = Instantiate(objects[index], pos, transform.rotation);
+    }
+
+    public void ToggleGrid()
+    {
+        if (gridToggle.isOn) gridOn = true;
+        else gridOn = false;
+    }
+    public float RoundToNearestGrid(float pos)
+    {
+
+        float xDiff = pos % gridSize;
+        pos -= xDiff;
+
+        if (xDiff > (gridSize / 2))
+        {
+            pos += gridSize;
+        }
+        return pos;
+
+    }
+    public void RotateObject()
+    {
+        pendingObject.transform.Rotate(Vector3.up, rotateAmoun);
+    }
+
+
+
+
+
 }
