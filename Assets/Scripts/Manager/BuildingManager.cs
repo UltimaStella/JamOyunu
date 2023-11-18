@@ -17,7 +17,7 @@ public class BuildingManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Ray hit Camera.main.ScreenPointToRay(Input.)
+        //Ray hit Camera.main.ScreenPointToRay(Input.)
     }
     // Update is called once per frame
     void Update()
