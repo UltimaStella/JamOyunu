@@ -59,8 +59,9 @@ public class Selection : MonoBehaviour
 
     public void Move()
     {
+        selectedObject.layer = 9;
         buildingManager.pendingObject = selectedObject;
-
+        
         buildingManager.canEscape = false;
     }
     public void Delete()
