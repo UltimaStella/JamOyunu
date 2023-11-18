@@ -22,7 +22,7 @@ public class CheckPlacement : MonoBehaviour
         }
         if (other.gameObject.CompareTag("Person"))
         {
-            if (transform.childCount > 0) return;
+            if (transform.childCount > 1) return;
 
             buildingManager.canPlace = true;
             buildingManager.lastHittedObject = gameObject;

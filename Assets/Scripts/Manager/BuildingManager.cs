@@ -96,14 +96,16 @@ public class BuildingManager : MonoBehaviour
             pendingObject.GetComponent<Collider>().enabled = false;
             pendingObject.transform.localPosition = Vector3.zero;
         }
+        pendingObject.layer = 0;
         pendingObject = null;
         lastHittedObject = null;
         panel.SetActive(true);
         canEscape = true;
+
     }
     public void SelectObject(int index)
     {
-        pendingObject = Instantiate(objects[index], pos, transform.rotation);
+        pendingObject = Instantiate(objects[index]);
         if (index > 3)
             canPlace = false;
         panel.SetActive(false);
