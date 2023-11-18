@@ -3,22 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor.UI;
 using UnityEngine.UI;
-
+using System;
 public class BuildingManager : MonoBehaviour
 {
 
     public GameObject[] objects;
     public GameObject pendingObject;
+    [NonSerialized] public GameObject lastHittedObject;
     [SerializeField] Material[] materials;
-
     private Vector3 pos;
-
+    public GameObject panel;
     private RaycastHit hit;
 
     [SerializeField] private LayerMask layerMask;
 
     public float rotateAmoun;
     public bool canPlace;
+    public bool canEscape = true;
     public float gridSize;
     bool gridOn;
     [SerializeField] private Toggle gridToggle;
@@ -66,19 +67,46 @@ public class BuildingManager : MonoBehaviour
                 RotateObject();
             }
             UpdateMaterials();
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+                DestroyPending();
+        }
+
+    }
+
+
+    void DestroyPending()
+    {
+        if (canEscape)
+        {
+            Destroy(pendingObject);
+            pendingObject = null;
+            panel.SetActive(true);
         }
     }
+
 
     public void PlaceObject()
     {
         pendingObject.GetComponent<Renderer>().material = materials[2];
+        if (lastHittedObject != null)
+        {
+
+            pendingObject.transform.parent = lastHittedObject.transform;
+            pendingObject.GetComponent<Collider>().enabled = false;
+            pendingObject.transform.localPosition = Vector3.zero;
+        }
         pendingObject = null;
-
-
+        lastHittedObject = null;
+        panel.SetActive(true);
+        canEscape = true;
     }
     public void SelectObject(int index)
     {
         pendingObject = Instantiate(objects[index], pos, transform.rotation);
+        if (index > 3)
+            canPlace = false;
+        panel.SetActive(false);
     }
 
     public void ToggleGrid()
