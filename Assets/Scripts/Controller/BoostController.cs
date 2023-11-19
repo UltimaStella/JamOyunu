@@ -9,8 +9,10 @@ namespace Assets.Scripts.Controller
         {
             if (other.CompareTag("Npc"))
             {
+                if (!targetLevel.Contains(other.gameObject.GetComponent<HumanController>().level))
+                    return;
                 if (targetLevel.Contains(other.GetComponent<HumanController>().level))
-                    other.GetComponent<HumanController>().LevelUp(); ;
+                    other.GetComponent<HumanController>().LevelUp(); 
             }
         }
     }

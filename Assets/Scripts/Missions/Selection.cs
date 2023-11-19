@@ -60,13 +60,13 @@ public class Selection : MonoBehaviour
     public void Move()
     {
         selectedObject.layer = 9;
-        buildingManager.pendingObject = selectedObject;
-        
+        buildingManager.pendingObject = selectedObject.transform.parent.gameObject;
+        buildingManager.canPlace = true;
         buildingManager.canEscape = false;
     }
     public void Delete()
     {
-        GameObject objToDestroy = selectedObject;
+        GameObject objToDestroy = selectedObject.transform.parent.gameObject;
         Deselect();
         Destroy(objToDestroy);
     }

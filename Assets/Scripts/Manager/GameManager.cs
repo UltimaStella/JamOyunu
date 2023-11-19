@@ -24,11 +24,11 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
      
-        currentEnergy = 100;
+        currentEnergy = 300;
         currentFuel = 200;
 
         maxFuel = 200;
-        maxEnergy = 100;
+        maxEnergy = 600;
 
         lastSpawnTime = Time.time;
         lastUseFuel = Time.time;

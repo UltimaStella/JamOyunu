@@ -16,7 +16,7 @@ namespace Assets.Scripts.Controller
         // Update is called once per frame
         void Update()
         {
-            transform.transform.position += transform.forward * Time.deltaTime;
+            transform.transform.position += transform.forward * 3/2* Time.deltaTime;
         }
         public void LevelUp()
         {

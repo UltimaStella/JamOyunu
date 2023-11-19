@@ -33,8 +33,8 @@ public class BuildingManager : MonoBehaviour
 
     void UpdateMaterials()
     {
-        if (canPlace) pendingObject.GetComponent<Renderer>().material = materials[0];
-        else pendingObject.GetComponent<Renderer>().material = materials[1];
+        if (canPlace) pendingObject.transform.GetChild(0).GetComponent<Renderer>().material = materials[0];
+        else pendingObject.transform.GetChild(0).GetComponent<Renderer>().material = materials[1];
 
     }
 
@@ -95,17 +95,17 @@ public class BuildingManager : MonoBehaviour
 
     public void PlaceObject()
     {
-        pendingObject.GetComponent<Renderer>().material = materials[2];
+        pendingObject.transform.GetChild(0).GetComponent<Renderer>().material = materials[2];
         if (lastHittedObject != null)
         {
 
             pendingObject.transform.parent = lastHittedObject.transform;
-            pendingObject.GetComponent<Collider>().enabled = false;
+            pendingObject.transform.GetChild(0).GetComponent<Collider>().enabled = false;
             pendingObject.transform.localPosition = Vector3.zero;
-            lastHittedObject.GetComponent<BuildController>().targetLevel =
-                pendingObject.GetComponent<PersonController>().targetLevel;
+            lastHittedObject.transform.GetComponent<BuildController>().targetLevel =
+                pendingObject.transform.GetChild(0).GetComponent<PersonController>().targetLevel;
         }
-        pendingObject.layer = 0;
+        pendingObject.transform.GetChild(0).gameObject.layer = 0;
         pendingObject = null;
         lastHittedObject = null;
         panel.SetActive(true);
