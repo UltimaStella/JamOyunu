@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
 
     int maxEnergy;
 
-    [NonSerialized] public float currentEnergy;
+  public float currentEnergy;
     private float currentFuel;
 
     private void Start()
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
         {
             currentFuel--;
             lastUseFuel = Time.time;
-            if (currentEnergy <= 0) GameOver();
+            if (currentEnergy <= 0 || currentFuel <= 0) GameOver();
 
         }
     }
@@ -93,5 +93,9 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 0;
         gameOverPanel.SetActive(true);
+    }
+    public void SetRate(float rate )
+    {
+        spawnRate = rate;
     }
 }
